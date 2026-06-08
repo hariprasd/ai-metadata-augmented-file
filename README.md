@@ -113,38 +113,3 @@ The goal is that any file, in any format, can carry this metadata using only wha
 `critical_action` · `state_change` · `error_event` · `ui_interaction` · `navigation` · `form_submit` · `network_request` · `visual_change` · `annotation` · `chapter_start` · `data_anomaly` · `reference`
 
 The type vocabulary is intentionally format-agnostic. `data_anomaly` applies to a spreadsheet cell as much as a video frame. `chapter_start` works for a PDF section as much as a video segment.
-
----
-
-## Why embed, not sidecar
-
-The alternative — a companion `file.meta.json` next to every file — breaks on every common file operation: upload, email attachment, copy-paste, cloud sync. The metadata and the file immediately diverge.
-
-Embedding in the format's native metadata layer means:
-- The metadata survives any move, copy, or transfer the file itself survives
-- No tooling required to keep them in sync
-- Agents can check for `__ai_meta__` with a single read of the metadata header — they don't need to process any content to decide whether guidance exists
-- Humans never see it unless they look for it
-
-The tradeoff is that each format needs its own write path. That's the implementation work. The schema is the same everywhere.
-
----
-
-## Research questions
-
-This project is building toward answers to:
-
-1. How much does importance-weighted frame selection improve VLM accuracy on causal questions, relative to uniform sampling at equal compute budgets?
-2. What is the minimum metadata density required for near-zero hallucination on annotated events?
-3. Does semantic bridging text (filling gaps between sampled frames with event descriptions) outperform simply selecting more frames?
-4. Can `__ai_meta__` be generated automatically from agent traces, or does it require human annotation?
-
-The video demo is the first controlled experiment. Each subsequent format adds a new axis of evaluation.
-
----
-
-## Status
-
-Early research stage. The video embedding and demo are the proof of concept. Schema is v0.1 and will evolve as more formats are implemented.
-
-Contributions, feedback, and collaborators welcome — particularly on format-specific embedding mechanics and evaluation methodology.
